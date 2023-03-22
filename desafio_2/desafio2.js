@@ -44,7 +44,6 @@ class ProductManager {
         if (products.find(e => e.code === product.code)){
             throw new Error(`El producto no puede ser agregado porque ya existe un producto con el mismo código.`)
         }
-        console.log(`idAuto antes del push ${this.idAuto}`) 
         
         if (products.length > 0) {
             const lastProduct = products[products.length - 1];
@@ -54,7 +53,6 @@ class ProductManager {
             id: this.idAuto++,
             ...product
         })
-        console.log(`idAuto ${this.idAuto}`)
 
         await fs.writeFile(this.path, JSON.stringify(products, null, 2))
         
@@ -133,7 +131,7 @@ const main = async () =>{
         //productManager.getProductById(1);
         //productManager.getProductById(99);
         //productManager.updateProduct( 1, {...product1,title: 'Producto actualizado',description: 'Descripcion actualizada',stock:50} );
-        productManager.deleteProduct(2);
+        //productManager.deleteProduct(2);
         
     } catch (error) {
         console.log(error);
