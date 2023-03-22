@@ -21,87 +21,109 @@ class ProductManager {
         }
     }
 
-    getProductById = ( id ) =>{
-        const productById = this.#products.find(e => e.id === id)
+    getProductById = (id) =>{
+
+        const productFile = fs.readFileSync(this.path, "utf-8");
+        let idProduct = JSON.parse(productFile);
+
+        const productById = idProduct.find(e => e.id === id)
         if (productById === undefined){
             return console.error ("Not found.")
         } 
         return console.log(productById)
     }
 
-    addProduct = ( title, description, price, thumbnail, code, stock ) => {
+    addProduct = (product) => {
         const id = this.idAuto
 
-        if( !title || !description || !price || !thumbnail || !code || !stock ){
-            console.error('No se pudo agregar el producto porque no se completaron todos los datos necesarios.')
-            return
+        const productFile = fs.readFileSync(this.path, "utf-8");
+        let products = JSON.parse(productFile);
+
+
+        if( !product.title || !product.description || !product.price || !product.thumbnail || !product.code || !product.stock ){
+            throw new Error('No se pudo agregar el producto porque no se completaron todos los datos necesarios.')
         }
 
-        if (this.#products.find(e => e.code === code)){
-            console.error(`El producto "${title}" no puede ser agregado porque ya existe un producto con el mismo código.`)
-            return
+        if (products.find(e => e.code === product.code)){
+            throw new Error(`El producto "${product.title}" no puede ser agregado porque ya existe un producto con el mismo código.`)
         }
 
-        this.#products.push({         
+        products.push({         
             id,
-            title,
-            description,
-            price,
-            thumbnail,
-            code,
-            stock
+            ...product
         })
 
-        fs.writeFileSync(this.path, JSON.stringify(this.#products, null, 2))
+        fs.writeFileSync(this.path, JSON.stringify(products, null, 2))
         this.idAuto++
     }
 
-    updateProduct = ( id, title, description, price, thumbnail, code, stock ) =>{
-        const product = this.#products.find(e => e.id === id)
-        if (product === undefined){
-            console.error ("No existe un producto con ese id, no se pudo actualizar.")
-            return
+    updateProduct = (id,product) =>{
+
+        const productFile = fs.readFileSync(this.path, "utf-8");
+        let products = JSON.parse(productFile);
+
+        const productFind = products.find(e => e.id === id)
+
+        if (productFind === undefined){
+            throw new Error("No existe un producto con ese id, no se pudo actualizar.")
         } 
 
-        if( !title || !description || !price || !thumbnail || !code || !stock ){
-            console.error('No se pudo actualizar el producto porque no se completaron todos los datos necesarios.')
-            return
+        if( !product.title || !product.description || !product.price || !product.thumbnail || !product.code || !product.stock ){
+            throw new Error(`No se pudo actualizar el producto con id ${id} porque no se completaron todos los datos necesarios.`)
         }
         
-        product.id = id
-        product.title = title
-        product.description = description
-        product.price = price
-        product.thumbnail = thumbnail
-        product.code = code
-        product.stock = stock
-        fs.writeFileSync(this.path, JSON.stringify(this.#products, null, 2))
-        console.log('El producto fue actualizado con éxito.')
+        products.splice(productFind, 1, { id, ...product });
+
+        fs.writeFileSync(this.path, JSON.stringify(products, null, 2))
+        console.log(`El producto con id ${id} fue actualizado con éxito.`)
     }
 
-    deleteProduct = ( id ) =>{
-        const product = this.#products.find(e => e.id === id)
-        if (product === undefined){
+    deleteProduct = (id) =>{
+        const productFile = fs.readFileSync(this.path, "utf-8");
+        let products = JSON.parse(productFile);
+
+        const productFind = products.find(e => e.id === id)
+        if (productFind === undefined){
             return console.error ("No existe un producto con ese id, no se pudo eliminar.")
         } else {
-            const productIndex = this.#products.indexOf(product)
-            this.#products.splice(productIndex, 1)
-            if(this.#products.length === 0){
+            const productIndex = products.indexOf(productFind)
+            products.splice(productIndex, 1)
+            if(products.length === 0){
                 fs.unlinkSync(this.path, 'utf-8')
             } else{
-                fs.writeFileSync(this.path, JSON.stringify(this.#products, null, 2))
+                fs.writeFileSync(this.path, JSON.stringify(products, null, 2))
             }
-            return console.log(`El producto "${product.title}" fue eliminado.`)
+            return console.log(`El producto "${productFind.title}" fue eliminado.`)
         }
     }
 }
 
 const productManager = new ProductManager('products.json')
 
-productManager.getProducts()
-productManager.addProduct('Producto prueba', 'Esto es un producto prueba', 200, 'Sin imagen', 'abc123', 25)
-console.log(productManager.getProducts())
-productManager.getProductById(1)
-productManager.getProductById(99)
-productManager.updateProduct( 1, 'Producto actualizado', 'Descripcion actualizada', 333, 'Sin imagen', 'codigoActualizado', 55)
-productManager.deleteProduct(1)
+
+const product1 = {
+    title: 'Producto prueba', 
+    description: 'Esto es un producto prueba', 
+    price: 200, 
+    thumbnail:'Sin imagen', 
+    code:'abc123', 
+    stock:25
+};
+
+const product2 = {
+    title: 'Producto prueba1', 
+    description: 'Esto es un producto prueba1', 
+    price: 200, 
+    thumbnail:'Sin imagen', 
+    code:'abc1234', 
+    stock:30
+};    
+
+productManager.getProducts();
+//productManager.addProduct(product1);
+//productManager.addProduct(product2);
+//console.log(productManager.getProducts());
+//productManager.getProductById(1);
+//productManager.getProductById(99);
+//productManager.updateProduct( 1, {...product1,title: 'Producto actualizado',description: 'Descripcion actualizada',stock:50} );
+//productManager.deleteProduct(1);
