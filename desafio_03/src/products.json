@@ -1,0 +1,92 @@
+[
+  {
+    "id": 1,
+    "title": "Producto prueba 1",
+    "description": "Esto es un producto prueba 1",
+    "price": 200,
+    "thumbnail": "Sin imagen",
+    "code": "abc12345",
+    "stock": 25
+  },
+  {
+    "id": 2,
+    "title": "Producto prueba 2",
+    "description": "Esto es un producto prueba 2",
+    "price": 250,
+    "thumbnail": "Sin imagen",
+    "code": "abc23456",
+    "stock": 25
+  },
+  {
+    "id": 3,
+    "title": "Producto prueba 3",
+    "description": "Esto es un producto prueba 3",
+    "price": 225,
+    "thumbnail": "Sin imagen",
+    "code": "abc34567",
+    "stock": 30
+  },
+  {
+    "id": 4,
+    "title": "Producto prueba 4",
+    "description": "Esto es un producto prueba 4",
+    "price": 210,
+    "thumbnail": "Sin imagen",
+    "code": "abc45678",
+    "stock": 50
+  },
+  {
+    "id": 5,
+    "title": "Producto prueba 5",
+    "description": "Esto es un producto prueba 5",
+    "price": 335,
+    "thumbnail": "Sin imagen",
+    "code": "abc56789",
+    "stock": 40
+  },
+  {
+    "id": 6,
+    "title": "Producto prueba 6",
+    "description": "Esto es un producto prueba 6",
+    "price": 200,
+    "thumbnail": "Sin imagen",
+    "code": "abc67891",
+    "stock": 20
+  },
+  {
+    "id": 7,
+    "title": "Producto prueba 7",
+    "description": "Esto es un producto prueba 7",
+    "price": 240,
+    "thumbnail": "Sin imagen",
+    "code": "abc78912",
+    "stock": 30
+  },
+  {
+    "id": 8,
+    "title": "Producto prueba 8",
+    "description": "Esto es un producto prueba 8",
+    "price": 260,
+    "thumbnail": "Sin imagen",
+    "code": "abc89123",
+    "stock": 45
+  },
+  {
+    "id": 9,
+    "title": "Producto prueba 9",
+    "description": "Esto es un producto prueba 9",
+    "price": 270,
+    "thumbnail": "Sin imagen",
+    "code": "abc91234",
+    "stock": 15
+  },
+  {
+    "id": 10,
+    "title": "Producto prueba 10",
+    "description": "Esto es un producto prueba 10",
+    "price": 325,
+    "thumbnail": "Sin imagen",
+    "code": "abc98765",
+    "stock": 35
+  }    
+]
