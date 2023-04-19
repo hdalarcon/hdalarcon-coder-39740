@@ -6,7 +6,13 @@ import realTimeProductsRouter from './routes/realTimeProductsRouter.js';
 import { engine } from 'express-handlebars';
 import { resolve } from 'path';
 import { Server } from 'socket.io';
+import ProductManager from "./controllers/productManager.js";
 
+const productManager = new ProductManager();
+
+const listProducts = await productManager.getProducts();
+
+const products = listProducts;
 
 void(async()=>{
     try {
@@ -34,13 +40,33 @@ void(async()=>{
         const httpServer = app.listen(PORT, ()=>{
         console.log(`Servidor escuchando en puerto ${PORT}`)
         })
-        const socketServer = new Server(httpServer);
 
-        socketServer.on('connection', socket =>{
-            
-            console.log('Nuevo cliente conectado');
+        const io = new Server(httpServer);
+        io.on('connection',socket =>{
 
-        });
+            socket.emit('products', products);
+
+            socket.on('message', (data) => {
+                console.log(data);
+            });
+
+            socket.on('addProduct', (data) => {
+                let id = products.length+1;
+                products.push({
+                    id: id,
+                    ...data
+                });
+                productManager.addProduct(data);
+                io.sockets.emit('products', products);
+            })
+
+            socket.on('deleteProduct',(data)=>{
+                productManager.deleteProduct(data);
+                const result = products.filter(product => product.id !== data);          
+                io.sockets.emit('products', result);
+            })
+        })
+
 
     } catch (error) {
         throw new Error(error);
