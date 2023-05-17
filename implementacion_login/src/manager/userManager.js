@@ -24,9 +24,8 @@ class UserManager
 
   async create(data)
   {
-    const user = await this.userDao.create(data);
-
-    return { ...user, password: undefined };
+      const user = await this.userDao.create(data);
+      return { ...user, password: undefined };
   }
 
   async updateOne(id, data)
