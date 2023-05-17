@@ -9,6 +9,7 @@ import session from "express-session";
 import mongoose from "mongoose";
 import mongoStore from "connect-mongo";
 import cookieParser from "cookie-parser";
+import userRouter from "./routes/userRouter.js";
 
 void(async()=>{
     try {
@@ -35,7 +36,9 @@ void(async()=>{
             saveUninitialized: false
         }));
 
+
         app.use('/api/sessions', sessionRouter);  
+        app.use('/api/users', userRouter);
         app.use("/api/products", productRouter);
         app.use("/api/carts", cartRouter);
 
