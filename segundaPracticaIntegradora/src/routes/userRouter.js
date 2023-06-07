@@ -7,7 +7,7 @@ const userRouter = Router();
 
 userRouter.get('/', auth, authorization('getUsers'), list);
 userRouter.get('/:id', auth, authorization('getUser'), getOne);
-userRouter.post('/', auth, auth, authorization('saveUser'), save);
+userRouter.post('/', auth, authorization('saveUser'), save);
 userRouter.put('/:id', auth, authorization('updateUser'), update);
 userRouter.delete('/:id', auth, authorization('deleteUser'), deleteOne);
 
