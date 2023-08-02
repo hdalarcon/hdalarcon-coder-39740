@@ -9,5 +9,6 @@
     ],
     "exec": "node src/index.js",
     "legacyWatch": true,
-    "ext": "js"
+    "ext": ".js,.mjs,.json,.yaml"
   }
+
